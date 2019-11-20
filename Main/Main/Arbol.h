@@ -53,7 +53,8 @@ class Tree {
 			return find(node->right, val);
 		}
 	}
-	void find2(Node*node, Comparable val, function<void(T)> proc) {
+
+	void find2(Node* node, Comparable val, function<void(T)> proc) {
 		if (node != nullptr) {
 			find2(node->left, val, proc);
 			if (val == key(node->elem)) {
@@ -61,7 +62,9 @@ class Tree {
 			}
 			find2(node->right, val, proc);
 		}
+
 	}
+
 	void preorder(Node* node, function<void(T)> proc) {
 		if (node != nullptr) {
 			proc(node->elem);
@@ -115,8 +118,7 @@ public:
 		find2(root, val, proc);
 	}
 
-
-	// Ordenamiento
+	// meh
 	void preorder(function<void(T)> proc) {
 		preorder(root, proc);
 	}
