@@ -41,7 +41,7 @@ class Tree {
 
 	T find(Node* node, Comparable val) {
 		if (node == nullptr) {
-			
+
 			return NONE;
 		}
 		else if (val == key(node->elem)) {
@@ -63,7 +63,7 @@ class Tree {
 			}
 			find2(node->right, val, proc);
 		}
-		
+
 	}
 
 	void inorder(Node* node, function<void(T)> proc) {
@@ -85,7 +85,7 @@ class Tree {
 
 
 public:
-	Tree(function<Comparable(T)> key = [](T a) {return a;})
+	Tree(function<Comparable(T)> key = [](T a) {return a; })
 		: root(nullptr), len(0), key(key) {}
 	~Tree() {
 		destroy(root);
@@ -112,7 +112,7 @@ public:
 	//para orden descendente
 	void reverseinorder(function<void(T)> proc) {
 		reverseinorder(root, proc);
-	}  
+	}
 
 
 

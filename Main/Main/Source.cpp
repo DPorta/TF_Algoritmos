@@ -66,6 +66,18 @@ void MostrarMenuFiltrarArchivos()
 	cout << "7 - Tamanio igual a X y el nombre comienza en Y \n";
 	cout << "8 - Tamanio igual a X y el nombre termina en Y \n";
 	cout << "9 - Tamanio igual a X y el nombre contiene Y \n";
+	cout << "10 - Tamaño mayores a (ascendentemente):  \n";
+	cout << "11 - Tamaño menores a (ascendentemente): \n";
+	cout << "12 - Tamaño igual a (ascendentemente):  \n";
+	cout << "13 - Nombre comienza (ascendentemente):  \n";
+	cout << "14 - Nombre contiene (ascendentemente):  \n";
+	cout << "15 - Nombre termina (ascendentemente):  \n";
+	cout << "16 - Tamaño mayores a (descendentemente):  \n";
+	cout << "17 - Tamaño menores a (descendentemente): \n";
+	cout << "18 - Tamaño igual a (descendentemente):  \n";
+	cout << "19 - Nombre comienza (descendentemente):  \n";
+	cout << "20 - Nombre contiene (descendentemente):  \n";
+	cout << "21 - Nombre termina (descendentemente):  \n";
 	cout << "0 - Volver al MENU \n";
 
 }
@@ -118,18 +130,6 @@ int main() {
 				file_size(entry.path()), entry.path().string()));
 		}
 
-		/*//PROBAR
-		//	//extension
-		//cout << entry.path().extension() << endl;			//recursive_directory_iterator->solo funciona con esto
-		//	//nombre
-		//cout << entry.path().filename() << endl;		//recursive_directory_iterator->solo funciona con esto
-		//	//tamaño
-		//cout << file_size(entry.path()) << endl;
-		//	//fecha
-		//auto ftime = last_write_time(entry.path());
-		//time_t cftime = decltype(ftime)::clock::to_time_t(ftime);
-		//cout << asctime(localtime(&cftime)) << endl;*/
-
 	}
 
 	auto l1 = [](File* a) { return a->getName(); };
@@ -155,13 +155,13 @@ int main() {
 		cout << "{ "
 			<< "Nombre: " << a->getName() << " \n "
 			<< "Extension: " << a->getExtension() << " \n "
-			<< "Fecha: " << a->getDate() 
+			<< "Fecha: " << a->getDate()
 			<< "Tamanio: " << a->getSize() << " bytes \n "
 			<< "Ruta: " << a->getFpath() << "} \n\n";
 	};
 
-	long long valorUserInput = 5;  //despues, con la creacion del menu, esto seria introducido por el usuario
-	auto prntmenorsize = [valorUserInput](File* a) {
+	long long valorUserInput = 14;  //despues, con la creacion del menu, esto seria introducido por el usuario
+	auto prntmenorsize = [&valorUserInput](File* a) {
 		if (a->getSize() < valorUserInput) {
 			cout << "{ "
 				<< "Nombre: " << a->getName() << " \n "
@@ -172,7 +172,7 @@ int main() {
 		}
 	};
 
-	auto prntmayorsize = [valorUserInput](File* a) {
+	auto prntmayorsize = [&valorUserInput](File* a) {
 		if (a->getSize() > valorUserInput) {
 			cout << "{ "
 				<< "Nombre: " << a->getName() << " \n "
@@ -183,7 +183,7 @@ int main() {
 		}
 	};
 
-	auto prntigualsize = [valorUserInput](File* a) {
+	auto prntigualsize = [&valorUserInput](File* a) {
 		if (a->getSize() == valorUserInput) {
 			cout << "{ "
 				<< "Nombre: " << a->getName() << " \n "
@@ -193,9 +193,9 @@ int main() {
 				<< "Ruta: " << a->getFpath() << "} \n\n";
 		}
 	};
-	
+
 	string valorUserInputSTR = "del";
-	auto prntcomienzacon = [valorUserInputSTR](File* a) {
+	auto prntcomienzacon = [&valorUserInputSTR](File* a) {
 		if (a->getName().rfind(valorUserInputSTR, 0) == 0) {
 			cout << "{ "
 				<< "Nombre: " << a->getName() << " \n "
@@ -206,7 +206,7 @@ int main() {
 		}
 	};
 
-	auto prntterminaen = [valorUserInputSTR](File* a) {
+	auto prntterminaen = [&valorUserInputSTR](File* a) {
 		if (a->getName().rfind(valorUserInputSTR) == (a->getName().size() - valorUserInputSTR.size())) {
 			cout << "{ "
 				<< "Nombre: " << a->getName() << " \n "
@@ -217,7 +217,7 @@ int main() {
 		}
 	};
 
-	auto prntcontiene = [valorUserInputSTR](File* a) {
+	auto prntcontiene = [&valorUserInputSTR](File* a) {
 		if (a->getName().find(valorUserInputSTR) != std::string::npos) {
 			cout << "{ "
 				<< "Nombre: " << a->getName() << " \n "
@@ -231,130 +231,139 @@ int main() {
 	// Menu
 
 	// Preguntar si se desea ordenar ascendentemente o descendentemente antes de entregar cualquier resultado y en funcion de eso usar reverseinorder o inorder
-	int option = -1,busCrit;
+	int option = -1, busCrit;
 	string valorS;
-	int valorI=-1;
+	int valorI = -1;
 	do
 	{
 		MostrarMenu();
 		cin >> option;
 		switch (option)
 		{
-		
+
 		case 1: {
-				system("CLS");
-				MostrarMenuBuscarArchivos();
+			system("CLS");
+			MostrarMenuBuscarArchivos();
 
-				cout << "Ingrese el criterio: ";
-				cin >> busCrit;
-				cout << "Ingrese valor: ";
-				switch (busCrit)
-				{
-				case 0: {system("cls");MostrarMenu();}break;
-				case 1: {cin >> valorS;
-					nameTree->find2(valorS, prnt);}break;
-				case 2: {cin >> valorS;
-					extTree->find2(valorS, prnt);}break;
-				case 3: {cin >> valorI;
-					sizeTree->find2(valorI, prnt);}break;
-				}
-				getchar();
-				getchar();
-
-			}break;
-		case 2: {
-				system("CLS");
-				MostrarMenuFiltrarArchivos();
-
-				cout << "Ingrese el criterio: ";
-				cin >> busCrit;
-
-				switch (busCrit)
+			cout << "Ingrese el criterio: ";
+			cin >> busCrit;
+			cout << "Ingrese valor: ";
+			switch (busCrit)
 			{
-				case 0: {system("cls");MostrarMenu();}break;
-				case 1: {cout << "Ingrese nombre: ";cin >> valorUserInputSTR;
-					cout << "Ingrese tamanio: ";cin >> valorUserInput;
-					nameTree->find2(valorUserInputSTR, prntmayorsize);}break;
+			case 0: {system("cls"); MostrarMenu(); }break;
+			case 1: {cin >> valorS;
+				nameTree->find2(valorS, prnt); }break;
+			case 2: {cin >> valorS;
+				extTree->find2(valorS, prnt); }break;
+			case 3: {cin >> valorI;
+				sizeTree->find2(valorI, prnt); }break;
+			}
+			getchar();
+			getchar();
 
-				case 2: {cout << "Ingrese nombre: ";cin >> valorUserInputSTR;
-					cout << "Ingrese tamanio: ";cin >> valorUserInput;
-					nameTree->find2(valorUserInputSTR, prntmenorsize);}break;
+		}break;
+		case 2: {
+			system("CLS");
+			MostrarMenuFiltrarArchivos();
 
-				case 3: {cout << "Ingrese nombre: ";cin >> valorUserInputSTR;
-					cout << "Ingrese tamanio: ";cin >> valorUserInput;
-					nameTree->find2(valorUserInputSTR, prntigualsize);}break;
+			cout << "Ingrese el criterio: ";
+			cin >> busCrit;
 
-				case 4: {cout << "Ingrese nombre: ";cin >> valorUserInputSTR;
-					cout << "Ingrese tamanio: ";cin >> valorUserInput;
-					extTree->find2(valorUserInputSTR, prntmayorsize);}break;
+			switch (busCrit)
+			{
+			case 0: {system("cls"); MostrarMenu(); }break;
+			case 1: {cout << "Ingrese nombre: "; cin >> valorUserInputSTR;
+				cout << "Ingrese tamanio: "; cin >> valorUserInput;
+				nameTree->find2(valorUserInputSTR, prntmayorsize); }break;
 
-				case 5: {cout << "Ingrese nombre: ";cin >> valorUserInputSTR;
-					cout << "Ingrese tamanio: ";cin >> valorUserInput;
-					extTree->find2(valorUserInputSTR, prntmenorsize);}break;
+			case 2: {cout << "Ingrese nombre: "; cin >> valorUserInputSTR;
+				cout << "Ingrese tamanio: "; cin >> valorUserInput;
+				nameTree->find2(valorUserInputSTR, prntmenorsize); }break;
 
-				case 6: {cout << "Ingrese nombre: ";cin >> valorUserInputSTR;
-					cout << "Ingrese tamanio: ";cin >> valorUserInput;
-					extTree->find2(valorUserInputSTR, prntigualsize);}break;
+			case 3: {cout << "Ingrese nombre: "; cin >> valorUserInputSTR;
+				cout << "Ingrese tamanio: "; cin >> valorUserInput;
+				nameTree->find2(valorUserInputSTR, prntigualsize); }break;
 
-				case 7: {cout << "Ingrese tamanio: ";cin >> valorUserInput;
-					cout << "Ingrese nombre: ";cin >> valorUserInputSTR;
-					sizeTree->find2(valorUserInput, prntcomienzacon);}break;
+			case 4: {cout << "Ingrese nombre: "; cin >> valorUserInputSTR;
+				cout << "Ingrese tamanio: "; cin >> valorUserInput;
+				extTree->find2(valorUserInputSTR, prntmayorsize); }break;
 
-				case 8: {cout << "Ingrese tamanio: ";cin >> valorUserInput;
-					cout << "Ingrese nombre: ";cin >> valorUserInputSTR;
-					sizeTree->find2(valorUserInput, prntterminaen);}break;
+			case 5: {cout << "Ingrese nombre: "; cin >> valorUserInputSTR;
+				cout << "Ingrese tamanio: "; cin >> valorUserInput;
+				extTree->find2(valorUserInputSTR, prntmenorsize); }break;
 
-				case 9: {cout << "Ingrese tamanio: ";cin >> valorUserInput;
-					cout << "Ingrese nombre: ";cin >> valorUserInputSTR;
-					sizeTree->find2(valorUserInput, prntcontiene);}break;
-				}
-				getchar();
-				getchar();
-			}break;
+			case 6: {cout << "Ingrese nombre: "; cin >> valorUserInputSTR;
+				cout << "Ingrese tamanio: "; cin >> valorUserInput;
+				extTree->find2(valorUserInputSTR, prntigualsize); }break;
+
+			case 7: {cout << "Ingrese tamanio: "; cin >> valorUserInput;
+				cout << "Ingrese nombre: "; cin >> valorUserInputSTR;
+				sizeTree->find2(valorUserInput, prntcomienzacon); }break;
+
+			case 8: {cout << "Ingrese tamanio: "; cin >> valorUserInput;
+				cout << "Ingrese nombre: "; cin >> valorUserInputSTR;
+				sizeTree->find2(valorUserInput, prntterminaen); }break;
+
+			case 9: {cout << "Ingrese tamanio: "; cin >> valorUserInput;
+				cout << "Ingrese nombre: "; cin >> valorUserInputSTR;
+				sizeTree->find2(valorUserInput, prntcontiene); }break;
+			case 10: {cout << "Ingrese valor: "; cin >> valorUserInput;
+				sizeTree->inorder(prntmayorsize); }break;
+			case 11: {cout << "Ingrese valor: "; cin >> valorUserInput;
+				sizeTree->inorder(prntmenorsize); }break;
+			case 12: {cout << "Ingrese valor: "; cin >> valorUserInput;
+				sizeTree->inorder(prntigualsize); }break;
+			case 13: {cout << "Ingrese valor: "; cin >> valorUserInputSTR;
+				nameTree->inorder(prntcomienzacon); }break;
+			case 14: {cout << "Ingrese valor: "; cin >> valorUserInputSTR;
+				nameTree->inorder(prntcontiene); }break;
+			case 15: {cout << "Ingrese valor: "; cin >> valorUserInputSTR;
+				nameTree->inorder(prntterminaen); }break;
+			case 16: {cout << "Ingrese valor: "; cin >> valorUserInput;
+				sizeTree->reverseinorder(prntmayorsize); }break;
+			case 17: {cout << "Ingrese valor: "; cin >> valorUserInput;
+				sizeTree->reverseinorder(prntmenorsize); }break;
+			case 18: {cout << "Ingrese valor: "; cin >> valorUserInput;
+				sizeTree->reverseinorder(prntigualsize); }break;
+			case 19: {cout << "Ingrese valor: "; cin >> valorUserInputSTR;
+				nameTree->reverseinorder(prntcomienzacon); }break;
+			case 20: {cout << "Ingrese valor: "; cin >> valorUserInputSTR;
+				nameTree->reverseinorder(prntcontiene); }break;
+			case 21: {cout << "Ingrese valor: "; cin >> valorUserInputSTR;
+				nameTree->reverseinorder(prntterminaen); }break;
+
+			}
+			getchar();
+			getchar();
+		}break;
 		case 3: {
-				system("CLS");
-				MostrarMenuOrdenarArchivos();
+			system("CLS");
+			MostrarMenuOrdenarArchivos();
 
-				cout << "Ingrese el criterio: ";
-				cin >> busCrit;
+			cout << "Ingrese el criterio: ";
+			cin >> busCrit;
 
-				switch (busCrit)
-				{
-				case 0: {system("cls");MostrarMenu();}break;
-				case 1: {nameTree->inorder(prnt);}break;
-				case 2: {extTree->inorder(prnt);}break;
-				case 3: {dateTree->inorder(prnt);}break;
-				case 4: {sizeTree->inorder(prnt);}break;
-				case 5: {fpathTree->inorder(prnt);}break;
-				case 6: {nameTree->reverseinorder(prnt);}break;
-				case 7: {extTree->reverseinorder(prnt);}break;
-				case 8: {dateTree->reverseinorder(prnt);}break;
-				case 9: {sizeTree->reverseinorder(prnt);}break;
-				case 10: {fpathTree->reverseinorder(prnt);}break;
-				}
-				getchar();
-				getchar();
-			}break;
+			switch (busCrit)
+			{
+			case 0: {system("cls"); MostrarMenu(); }break;
+			case 1: {nameTree->inorder(prnt); }break;
+			case 2: {extTree->inorder(prnt); }break;
+			case 3: {dateTree->inorder(prnt); }break;
+			case 4: {sizeTree->inorder(prnt); }break;
+			case 5: {fpathTree->inorder(prnt); }break;
+			case 6: {nameTree->reverseinorder(prnt); }break;
+			case 7: {extTree->reverseinorder(prnt); }break;
+			case 8: {dateTree->reverseinorder(prnt); }break;
+			case 9: {sizeTree->reverseinorder(prnt); }break;
+			case 10: {fpathTree->reverseinorder(prnt); }break;
+			}
+			getchar();
+			getchar();
+		}break;
 		}
-		
-		system("cls");
-	} while (option!=0);
-	
-	/*sizeTree->find2(180, prntcontiene); cout << "-----------------------==\n";
-	sizeTree->find2(180, prntcomienzacon); cout << "------------MAYOR-----------==\n";
-	nameTree->find2("textoplano", prntmayorsize); cout << "-----------------------==\n";
-	nameTree->inorder(prnt); cout << "-----------------------==\n";
-	nameTree->reverseinorder(prnt); cout << "-----------------------==\n";
-	extTree->inorder(prnt); cout << "-----------------------==\n";
-	dateTree->inorder(prnt); cout << "-----------------------==\n";
-	sizeTree->inorder(prnt); cout << "---------MENOR--------------==\n";
-	sizeTree->inorder(prntmenorsize); cout << "-----------------------==\n";
-	fpathTree->inorder(prnt); cout << "-----------------------==\n";
 
-	prnt(sizeTree->find(180));
-	prnt(sizeTree->find(10));
-	prnt(sizeTree->find(180));
-	prnt(sizeTree->find(10));*/
+		system("cls");
+	} while (option != 0);
 
 	delete nameTree;
 	delete extTree;
